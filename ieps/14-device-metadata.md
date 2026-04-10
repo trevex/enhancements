@@ -45,9 +45,9 @@ that cannot be auto-determined from the resources themselves. Such information
 will need to be provided externally.
 
 Operators need to filter and select resources by physical properties — for
-example, listing all servers in a specific datacenter, rack, or of a certain
+example, listing all servers in a specific location, rack, or of a certain
 height. Visualization tools need this information to render datacenter layouts.
-The [metaldata service](proposal-0002-metaldata-service.md) can expose these
+The [metaldata service](13-metaldata-service.md) can expose these
 labels to servers at runtime.
 
 ### Goals
@@ -96,34 +96,29 @@ Labels are used for metadata that operators need to filter or select on.
 
 | Label | Description | Example |
 |---|---|---|
-| `metadata.metal.ironcore.dev/site` | Site or campus identifier | `WDF4` |
-| `metadata.metal.ironcore.dev/datacenter` | Datacenter within a site | `RZ78` |
+| `metadata.metal.ironcore.dev/location` | User-defined location identifier at whatever granularity fits the environment (site, campus, datacenter, or a combination) | `CITY-BUILDING-FLOOR` |
 | `metadata.metal.ironcore.dev/rack` | Opaque rack identifier (may encode row, position, or other site-specific schemes) | `1-12` |
-| `metadata.metal.ironcore.dev/rack-position` | Position within the rack (bottom-up U number) | `24` |
+| `metadata.metal.ironcore.dev/shelf` | Position within the rack (bottom-up U number) | `24` |
 | `metadata.metal.ironcore.dev/height` | Device height in rack units (U) | `2` |
+
+The `location` label replaces separate site and datacenter labels. Since each
+management cluster corresponds to a single physical location, the granularity
+of this value is up to the operator — it may be a site code, a datacenter
+identifier, or a composite like `FRA-DC5-3F`.
 
 The `rack` label is intentionally an opaque string. Different environments may
 use different conventions to uniquely identify a rack (e.g. row and position,
 floor and aisle, or a flat identifier). A recommended format is not prescribed
-— the value should be whatever uniquely identifies the rack within its
-datacenter.
+— the value should be whatever uniquely identifies the rack within the
+location.
 
 > [!NOTE]
-> Since each management cluster corresponds to a single zone / availability
-> zone, an AZ label is not needed — it is implicit from the cluster context.
-
-### Annotations
-
-Annotations are used for metadata that is informational but not typically used
-for filtering.
-
-| Annotation | Description | Example |
-|---|---|---|
-| `metadata.metal.ironcore.dev/location` | Human-readable composite location string | `RZ78-1-12-24` |
-
-The `location` annotation provides a convenient, human-readable representation
-of the full physical location. It is not intended for programmatic filtering —
-use the individual labels above instead.
+> 1. Since each management cluster corresponds to a single zone / availability
+>    zone, an AZ label is not needed — it is implicit from the cluster context.
+> 2. Labels like `height` could theoretically be derived from a device type mapping,
+>    but this introduces complexity around vendor naming inconsistencies and hardware
+>    revisions. Instead, operators are expected to provide explicit values using
+>    their own inventory tooling.
 
 ### Status Fields
 
@@ -162,23 +157,21 @@ apiVersion: metal.ironcore.dev/v1alpha1
 kind: Server
 metadata:
   labels:
-    metadata.metal.ironcore.dev/site: WDF4
-    metadata.metal.ironcore.dev/datacenter: RZ78
+    metadata.metal.ironcore.dev/location: FRA-DC5-3F
     metadata.metal.ironcore.dev/rack: "1-12"
-    metadata.metal.ironcore.dev/rack-position: "24"
+    metadata.metal.ironcore.dev/shelf: "24"
     metadata.metal.ironcore.dev/height: "2"
   annotations:
     metal.ironcore.dev/loopback-address: 2001:db8:203::1
     metal.ironcore.dev/operation: no-ignore-reconciliation
     metal.ironcore.dev/prefix: 2001:db8:203::/64
-    metadata.metal.ironcore.dev/location: RZ78-1-12-24
 ```
 
 With these labels, operators can use standard Kubernetes selectors:
 
 ```bash
-# All servers in datacenter RZ78
-kubectl get servers -l metadata.metal.ironcore.dev/datacenter=RZ78
+# All servers in location FRA-DC5-3F
+kubectl get servers -l metadata.metal.ironcore.dev/location=FRA-DC5-3F
 
 # All 2U servers in rack 1-12
 kubectl get servers -l metadata.metal.ironcore.dev/rack=1-12,metadata.metal.ironcore.dev/height=2
