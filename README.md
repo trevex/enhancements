@@ -7,3 +7,6 @@ the list of accepted proposals in the [ieps/ directory](ieps/).
 
 Please use our [template](ieps/00-template.md) to write and submit your proposal
 via a pull request.
+
+> [!Note]
+> After approval and before merging, the next consecutive number must be assigned to the IEP.

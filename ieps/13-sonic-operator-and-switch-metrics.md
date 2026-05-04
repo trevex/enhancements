@@ -1,21 +1,22 @@
 ---
 title: Prometheus Metrics for the SONiC Operator and Managed Switches
-iep-number: 15
+iep-number: 13
 creation-date: 2026-04-16
-status: draft
+status: implementable
 authors:
 - "@peanball"
 reviewers:
 - "@maxmoehl"
 - "@byteocean"
 - "@Giluerre"
+- "@hardikdr"
 ---
 
-# IEP-15: Prometheus Metrics for the SONiC Operator and Managed Switches
+# IEP-13: Prometheus Metrics for the SONiC Operator and Managed Switches
 
 ## Table of Contents
 
-- [IEP-14: Prometheus Metrics for the SONiC Operator and Managed Switches](#iep-14-prometheus-metrics-for-the-sonic-operator-and-managed-switches)
+- [IEP-13: Prometheus Metrics for the SONiC Operator and Managed Switches](#iep-13-prometheus-metrics-for-the-sonic-operator-and-managed-switches)
   - [Table of Contents](#table-of-contents)
   - [Summary](#summary)
   - [Motivation](#motivation)
