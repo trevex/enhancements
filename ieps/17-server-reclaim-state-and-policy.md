@@ -1,7 +1,7 @@
 ---
 title: Server Reclaim State & Policy
 
-iep-number: tbd
+iep-number: 17
 
 creation-date: 2026-06-01
 
@@ -17,7 +17,7 @@ reviewers:
 
 ---
 
-# IEP-tbd: Server Reclaim State & Policy
+# IEP-17: Server Reclaim State & Policy
 
 ## Table of Contents
 
