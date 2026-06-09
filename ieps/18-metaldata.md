@@ -1,7 +1,7 @@
 ---
 title: Metaldata Service
 
-ep-number: 18
+iep-number: 18
 
 creation-date: 2026-03-30
 

@@ -1,7 +1,7 @@
 ---
 title: Introducing ServerReadinessRule to ensure Server readiness
 
-iep-number: 0014
+iep-number: 19
 
 creation-date: 2026-04-27
 
@@ -14,7 +14,7 @@ reviewers:
   - '@ironcore-dev/metal-operator-maintainers'
 ---
 
-# IEP-0014: Availability Gating for IronCore Servers
+# IEP-19: Availability Gating for IronCore Servers
 
 ## Table of Contents
 
